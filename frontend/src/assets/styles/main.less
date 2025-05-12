@@ -1,0 +1,121 @@
+@import './variables.less';
+
+// 全局样式
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  line-height: 1.5;
+  color: @text-color;
+  background-color: @background-color-base;
+}
+
+// 布局样式
+.layout {
+  min-height: 100vh;
+}
+
+.sider {
+  .logo {
+    height: @header-height;
+    padding: @spacing-medium;
+    color: white;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    
+    h1 {
+      color: white;
+      margin: 0;
+      font-size: 18px;
+      line-height: @header-height;
+    }
+  }
+}
+
+.header {
+  background: white;
+  padding: 0 @spacing-medium;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: @box-shadow-base;
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    
+    .trigger {
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.3s;
+      padding: 0 @spacing-medium;
+      
+      &:hover {
+        color: @primary-color;
+      }
+    }
+    
+    .breadcrumb {
+      margin-left: @spacing-medium;
+    }
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    
+    .action-icon {
+      font-size: 16px;
+      padding: 0 @spacing-medium;
+      cursor: pointer;
+      
+      &:hover {
+        color: @primary-color;
+      }
+    }
+    
+    .user-dropdown {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 0 @spacing-medium;
+      
+      .username {
+        margin-left: @spacing-small;
+      }
+    }
+  }
+}
+
+.content {
+  margin: @spacing-medium;
+  
+  .content-container {
+    padding: @spacing-medium;
+    background: white;
+    min-height: 280px;
+    border-radius: @border-radius-base;
+  }
+}
+
+.footer {
+  text-align: center;
+  color: @text-color-secondary;
+}
+
+// 过渡动画
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+} 

@@ -1,0 +1,16 @@
+{% extends "email/base.html" %}
+
+{% block content %}
+<h2>Creative Approved</h2>
+<p>Hello {{ user.username }},</p>
+
+<div class="success">
+    <p>Your creative "{{ creative_name }}" has been approved and is now available for use in campaigns.</p>
+</div>
+
+<p>You can now assign this creative to your active campaigns through the DSP Ad System dashboard.</p>
+
+<p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+
+<p>Best regards,<br>The DSP Ad System Team</p>
+{% endblock %} 

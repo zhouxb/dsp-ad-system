@@ -1,0 +1,18 @@
+{% extends "email/base.html" %}
+
+{% block content %}
+<h2>Verify Your Email Address</h2>
+<p>Hello {{ user.username }},</p>
+<p>Thank you for registering with DSP Ad System. Please verify your email address by clicking the button below:</p>
+
+<a href="{{ verification_url }}" class="button">Verify Email</a>
+
+<p>If you're having trouble clicking the button, copy and paste this URL into your browser:</p>
+<p>{{ verification_url }}</p>
+
+<p>This verification link will expire in 24 hours.</p>
+
+<p>If you didn't create an account with DSP Ad System, you can safely ignore this email.</p>
+
+<p>Best regards,<br>The DSP Ad System Team</p>
+{% endblock %} 

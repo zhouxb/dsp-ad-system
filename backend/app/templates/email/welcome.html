@@ -1,0 +1,23 @@
+{% extends "email/base.html" %}
+
+{% block content %}
+<h2>Welcome to DSP Ad System!</h2>
+<p>Hello {{ user.username }},</p>
+<p>Thank you for joining DSP Ad System. We're excited to have you on board!</p>
+
+<p>To get started, please log in to your account:</p>
+
+<a href="{{ login_url }}" class="button">Log In</a>
+
+<p>Here are some quick tips to help you get started:</p>
+<ul>
+    <li>Complete your profile information</li>
+    <li>Set up your first advertising campaign</li>
+    <li>Upload your creative assets</li>
+    <li>Configure your targeting preferences</li>
+</ul>
+
+<p>If you have any questions or need assistance, our support team is here to help.</p>
+
+<p>Best regards,<br>The DSP Ad System Team</p>
+{% endblock %} 
