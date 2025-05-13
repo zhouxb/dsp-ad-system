@@ -38,7 +38,7 @@
         <a-card>
           <template #title>
             <span>
-              <click-outlined />
+              <aim-outlined />
               今日点击
             </span>
           </template>
@@ -112,7 +112,7 @@ import { defineComponent, ref, onMounted } from 'vue'
 import { 
   FundOutlined, 
   EyeOutlined, 
-  ClickOutlined, 
+  AimOutlined, 
   RiseOutlined 
 } from '@ant-design/icons-vue'
 import * as echarts from 'echarts'
@@ -122,7 +122,7 @@ export default defineComponent({
   components: {
     FundOutlined,
     EyeOutlined,
-    ClickOutlined,
+    AimOutlined,
     RiseOutlined
   },
   setup() {

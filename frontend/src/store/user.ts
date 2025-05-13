@@ -48,11 +48,14 @@ export const useUserStore = defineStore('user', {
     async verifyToken() {
       if (!this.token) return Promise.reject('未登录')
 
+      console.log('verifyToken', this.token)
+
       try {
         const response = await api.auth.verify()
         this.user = response.data.user
         return Promise.resolve(response.data)
-      } catch (error) {
+      } catch (error: any) {
+        console.error('Token verification failed:', error.response?.data || error)
         this.logout()
         return Promise.reject(error)
       }

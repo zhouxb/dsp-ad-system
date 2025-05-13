@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useUserStore } from '@/store/user'
 import { message } from 'ant-design-vue'
 import router from '@/router'
 
@@ -8,68 +9,58 @@ const request = axios.create({
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
+  withCredentials: true
 })
 
 // 请求拦截器
 request.interceptors.request.use(
   config => {
-    // 从localStorage获取token
-    const token = localStorage.getItem('token')
-    
-    // 如果有token，添加到请求头
+    const userStore = useUserStore()
+    const token = userStore.token
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    
-    // 添加CSRF Token (如果有)
-    const csrfToken = localStorage.getItem('csrfToken')
-    if (csrfToken && ['post', 'put', 'delete', 'patch'].includes(config.method || '')) {
-      config.headers['X-CSRF-Token'] = csrfToken
-    }
-    
+
     return config
   },
   error => {
+    console.error('Request error:', error)
     return Promise.reject(error)
   }
 )
 
 // 响应拦截器
 request.interceptors.response.use(
-  response => {
-    return response
-  },
-  error => {
-    if (error.response) {
-      const status = error.response.status
-      
-      // 未授权或token过期
-      if (status === 401) {
-        message.error('登录已过期，请重新登录')
-        localStorage.removeItem('token')
-        router.push('/login')
-      }
-      
-      // 权限不足
-      else if (status === 403) {
-        message.error('您没有权限执行此操作')
-      }
-      
-      // 服务器错误
-      else if (status >= 500) {
-        message.error('服务器错误，请稍后重试')
-      }
-      
-      // 其他错误
-      else {
-        const errorMsg = error.response.data?.error || '请求失败'
-        message.error(errorMsg)
+  response => response,
+  async error => {
+    const { response } = error
+
+    if (response) {
+      switch (response.status) {
+        case 401:
+          // Token 过期或无效
+          const userStore = useUserStore()
+          userStore.logout()
+          message.error('登录已过期，请重新登录')
+          window.location.href = '/login'
+          break
+        case 403:
+          message.error('没有权限执行此操作')
+          break
+        case 422:
+          // 验证错误
+          const errorMsg = response.data.error || '请求参数错误'
+          message.error(errorMsg)
+          break
+        default:
+          message.error(response.data.error || '服务器错误')
       }
     } else {
-      message.error('网络错误，请检查您的网络连接')
+      message.error('网络错误，请检查网络连接')
     }
-    
+
     return Promise.reject(error)
   }
 )

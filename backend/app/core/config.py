@@ -25,13 +25,28 @@ class Settings(BaseSettings):
     # JWT Settings
     JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "dev_jwt_key")
     JWT_ACCESS_TOKEN_EXPIRES: int = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES", 86400))
+    JWT_TOKEN_LOCATION: List[str] = ["headers"]
+    JWT_HEADER_NAME: str = "Authorization"
+    JWT_HEADER_TYPE: str = "Bearer"
+    JWT_ERROR_MESSAGE_KEY: str = "error"
+    JWT_ACCESS_CSRF_HEADER_NAME: str = "X-CSRF-Token"
+    JWT_CSRF_CHECK_FORM: bool = True
+    JWT_CSRF_IN_COOKIES: bool = True
+    JWT_CSRF_METHODS: List[str] = ["POST", "PUT", "PATCH", "DELETE"]
+    JWT_JSON_KEY: str = "access_token"
+    JWT_IDENTITY_CLAIM: str = "sub"
 
     # Security
     AES_SECRET_KEY: str = os.getenv("AES_SECRET_KEY", "dev_aes_key_16_bytes!")
     CSRF_SECRET_KEY: str = os.getenv("CSRF_SECRET_KEY", "dev_csrf_key")
 
     # CORS Settings
-    CORS_ORIGINS: List[AnyHttpUrl] = []
+    CORS_ORIGINS: List[AnyHttpUrl] = [
+        "http://localhost:3000",
+        "http://localhost:8080",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8080"
+    ]
 
     @validator("CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
