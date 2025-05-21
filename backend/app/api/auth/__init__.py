@@ -29,8 +29,6 @@ def login():
         # Check credentials
         user = User.get_by_username(data['username'])
 
-        print("Found user:", user)
-
         if not user or not user.check_password(data['password']):
             return jsonify({
                 "error": "Invalid credentials"
@@ -63,9 +61,6 @@ def login():
         user.last_login = datetime.utcnow()
         user.save()
 
-        print("Generated access token:", access_token)
-        print("Token claims:", additional_claims)
-
         response = jsonify({
             "access_token": access_token,
             "csrf_token": csrf_token,
@@ -79,7 +74,6 @@ def login():
             }
         })
         
-        print("Response headers:", dict(response.headers))
         return response, 200
 
     except ValidationError as e:
@@ -100,13 +94,9 @@ def login():
 def verify_token():
     """Verify JWT token is valid and return user info"""
     try:
-        print("Headers:", dict(request.headers))
-        print("Authorization:", request.headers.get('Authorization'))
-        
         user_id = get_jwt_identity()
         
         if not user_id:
-            print("No user ID found in token")
             return jsonify({
                 "error": "Invalid token: missing user identity"
             }), 401
@@ -122,13 +112,11 @@ def verify_token():
         user = User.get_by_id(user_id)
         
         if not user:
-            print("User not found in database")
             return jsonify({
                 "error": "User not found"
             }), 404
 
         if not user.is_active:
-            print("User account is inactive")
             return jsonify({
                 "error": "User account is inactive"
             }), 403
